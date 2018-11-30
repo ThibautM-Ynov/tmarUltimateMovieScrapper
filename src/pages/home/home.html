@@ -6,9 +6,10 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content class="card-background-page">
+  <ion-card *ngFor="let movie of movies">
+    <img src="{{movie.Poster}}"/>
+    <div class="card-title">{{movie.Title}}</div>
+    <div class="card-subtitle">{{movie.Year}}</div>
+  </ion-card>
 </ion-content>
