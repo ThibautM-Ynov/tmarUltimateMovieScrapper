@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 import {OmdbApiProvider} from "../../providers/omdb-api/omdb-api";
 
 /**
@@ -15,11 +15,25 @@ import {OmdbApiProvider} from "../../providers/omdb-api/omdb-api";
   templateUrl: 'movies.html',
 })
 export class MoviesPage {
-    movies: any;
+  private isOn: boolean = false;
+  //searchPerformed: boolean = false;
+  items: string[];
+  movies: any;
 
-    constructor(public navCtrl: NavController, public omdbApi: OmdbApiProvider) {
-        this.movies = this.omdbApi.results;
-        console.log(this.movies);
+  constructor(public navCtrl: NavController, public omdbApi: OmdbApiProvider) {
+  }
+
+  getState() {
+    return this.isOn;
+  }
+
+  getItems(ev: any, type) {
+    const val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.omdbApi.getSearch(ev.target.value, type);
     }
+    console.log(this.omdbApi.results)
+    this.movies = this.omdbApi.results
+  }
 
 }
