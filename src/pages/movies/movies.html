@@ -1,8 +1,14 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Ionic Blank
+    <ion-title *ngIf="!isOn">
+      Movies
     </ion-title>
+    <ion-searchbar *ngIf="isOn" showCancelButton="true" (ionInput)="getItems($event, 'movie')" (ionCancel)="isOn=false"></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button icon-only *ngIf="!isOn" (click)="isOn=true;">
+        <ion-icon name="search"></ion-icon>
+       </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
