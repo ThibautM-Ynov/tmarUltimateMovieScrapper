@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import {OmdbApiProvider} from "../../providers/omdb-api/omdb-api";
+import {DetailsPage} from "../details/details";
 
 /**
  * Generated class for the MoviesPage page.
@@ -50,6 +51,10 @@ export class MoviesPage {
     this.movies = this.omdbApi.moviesResults;
     console.log(this.movies);
     this.pageIndex++;
+  }
+
+  goToDetail(movie) {console.log(movie)
+    this.navCtrl.push(DetailsPage, movie);
   }
 
 }

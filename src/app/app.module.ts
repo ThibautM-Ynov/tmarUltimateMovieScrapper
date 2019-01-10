@@ -7,10 +7,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import { OmdbApiProvider } from '../providers/omdb-api/omdb-api';
+import {DetailsPage} from "../pages/details/details";
 
 @NgModule({
   declarations: [
     MyApp,
+    DetailsPage,
   ],
   imports: [
     BrowserModule,
@@ -20,6 +22,7 @@ import { OmdbApiProvider } from '../providers/omdb-api/omdb-api';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    DetailsPage,
   ],
   providers: [
     StatusBar,

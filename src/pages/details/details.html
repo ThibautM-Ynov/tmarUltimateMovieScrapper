@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title *ngIf="movie">{{movie.Title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="movie">
+    <img [src]="movie.Poster" />
+    <ion-card-header>
+      <h2>Synopsis
+        <ion-badge color="primary">{{movie.imdbRating}}</ion-badge>
+      </h2>
+    </ion-card-header>
+    <ion-card-content>{{movie.Plot}}</ion-card-content>
+  </ion-card>
+</ion-content>
