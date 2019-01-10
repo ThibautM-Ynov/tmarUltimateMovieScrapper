@@ -19,6 +19,9 @@ export class MoviesPage {
   //searchPerformed: boolean = false;
   items: string[];
   movies: any;
+  searchType: string = '';
+  searchText: string = '';
+  pageIndex: number = 2;
 
   constructor(public navCtrl: NavController, public omdbApi: OmdbApiProvider) {
   }
@@ -27,13 +30,26 @@ export class MoviesPage {
     return this.isOn;
   }
 
-  getItems(ev: any, type) {
-    const val = ev.target.value;
-    if (val && val.trim() != '') {
-      this.omdbApi.getSearch(ev.target.value, type);
+  getItems(ev: any, type, nbPage) {
+    this.searchText = ev.target.value;
+    this.searchType = type;
+    if (this.searchText && this.searchText.trim() != '') {
+      this.omdbApi.getSearch(this.searchText, type, nbPage);
     }
-    console.log(this.omdbApi.results)
-    this.movies = this.omdbApi.results
+
+    this.movies = this.omdbApi.moviesResults;
+    console.log(this.movies);
+  }
+
+  doInfinite(infiniteScroll) {
+    setTimeout(() => {
+      this.omdbApi.getSearch(this.searchText, this.searchType, this.pageIndex);
+
+      infiniteScroll.complete();
+    }, 500);
+    this.movies = this.omdbApi.moviesResults;
+    console.log(this.movies);
+    this.pageIndex++;
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
+import {OmdbApiProvider} from "../../providers/omdb-api/omdb-api";
 
 /**
  * Generated class for the SeriesPage page.
@@ -14,12 +15,40 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'series.html',
 })
 export class SeriesPage {
+  private isOn: boolean = false;
+  //searchPerformed: boolean = false;
+  items: string[];
+  series: any;
+  searchType: string = '';
+  searchText: string = '';
+  pageIndex: number = 2;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public omdbApi: OmdbApiProvider) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SeriesPage');
+  getState() {
+    return this.isOn;
+  }
+
+  getItems(ev: any, type, nbPage) {
+    this.searchText = ev.target.value;
+    this.searchType = type;
+    if (this.searchText && this.searchText.trim() != '') {
+      this.omdbApi.getSearch(this.searchText, type, nbPage);
+    }
+    console.log(this.omdbApi.seriesResults);
+    this.series = this.omdbApi.seriesResults
+  }
+
+  doInfinite(infiniteScroll) {
+    setTimeout(() => {
+      this.omdbApi.getSearch(this.searchText, this.searchType, this.pageIndex);
+
+      infiniteScroll.complete();
+    }, 500);
+    this.series = this.omdbApi.seriesResults;
+    console.log(this.series);
+    this.pageIndex++;
   }
 
 }

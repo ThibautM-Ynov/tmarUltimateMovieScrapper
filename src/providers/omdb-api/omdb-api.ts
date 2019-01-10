@@ -11,7 +11,8 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class OmdbApiProvider {
   moviesIds = [];
-  results = [];
+  moviesResults = [];
+  seriesResults = [];
   search = [];
   results_posters = [];
   url_base_data = "http://www.omdbapi.com/";
@@ -23,25 +24,60 @@ export class OmdbApiProvider {
     constructor(public http: HttpClient) {
     }
 
-    getData(url, parameters) {
+    callApi(url, parameters) {
       return this.http.get(url + this.apiKey + parameters).map((res) => res);
     }
 
-    getMovies(search) {
+    getNextPage(search, type) {
+        if (type === 'movie') {
+            this.callApi(this.url_base_data, '&i=' + search).subscribe(data => {
+                let tmp = [];
+                for (let key in data) {
+                    tmp[key] = data[key];
+                }
+                this.moviesResults.push(tmp);
+            });
+        }
+        if (type === 'series') {
+            this.callApi(this.url_base_data, '&i=' + search).subscribe(data => {
+                let tmp = [];
+                for (let key in data) {
+                    tmp[key] = data[key];
+                }
+                this.seriesResults.push(tmp);
+            });
+        }
+    }
+
+    getData(search, type) {
       if (search != null) {
-          while(this.results.length > 0) {
-              this.results.pop();
-          }
-          this.getData(this.url_base_data, '&i=' + search).subscribe(data => {
-              let tmp = [];
-              for (let key in data) {
-                  tmp[key] = data[key];
+          if (type === 'movie') {
+              while(this.moviesResults.length > 0) {
+                  this.moviesResults.pop();
               }
-              this.results.push(tmp);
-          });
+              this.callApi(this.url_base_data, '&i=' + search).subscribe(data => {
+                  let tmp = [];
+                  for (let key in data) {
+                      tmp[key] = data[key];
+                  }
+                  this.moviesResults.push(tmp);
+              });
+          }
+          if (type === 'series') {
+              while(this.seriesResults.length > 0) {
+                  this.seriesResults.pop();
+              }
+              this.callApi(this.url_base_data, '&i=' + search).subscribe(data => {
+                  let tmp = [];
+                  for (let key in data) {
+                      tmp[key] = data[key];
+                  }
+                  this.seriesResults.push(tmp);
+              });
+          }
       }
       /*else {
-          this.getData(this.url_base_data, this.parameters).subscribe(data => {
+          this.callApi(this.url_base_data, this.parameters).subscribe(data => {
               for (let movie of data['Search']) {
                   this.results.push(movie);
                   this.moviesIds.push(movie.imdbID)
@@ -50,18 +86,25 @@ export class OmdbApiProvider {
       }*/
     }
 
-    getSearch(el, type) {
+    getSearch(el, type, nbPage) {
         this.title = el.trim().split(' ').join('+') + '*';
         this.search.length = 0;
-        this.getData(this.url_base_data, '&s=' + this.title).subscribe(data => {
+        this.callApi(this.url_base_data, '&s=' + this.title + '&type=' + type + '&page=' + nbPage).subscribe(data => {
             if (data['Error'] === 'Too many results.') {
                 return null;
             }
             if (data['Error'] === 'Movie not found!')  {
                 return '';
             }
-            for (let movie of data['Search']) {
-                this.getMovies(movie['imdbID'])
+            if (data['Error'] === 'Series not found!')  {
+                return '';
+            }
+            for (let elem of data['Search']) {
+                if (nbPage > 1) {
+                    this.getNextPage(elem['imdbID'], type)
+                } else {
+                    this.getData(elem['imdbID'], type)
+                }
                 //this.search.push(movie.imdbID);
                 //this.moviesIds.push(movie.imdbID)
             }
@@ -72,7 +115,7 @@ export class OmdbApiProvider {
 /*    getDetails(ids) {
       for (let i=0;i<ids.length;i++){
         console.log(ids[i]);
-        this.getData(this.url_base_poster, '&i=' + ids[i]).subscribe(data => {
+        this.callApi(this.url_base_poster, '&i=' + ids[i]).subscribe(data => {
           console.log('end')
           for (let poster of data['Search']) {
             this.results_posters.push(poster);
@@ -90,7 +133,7 @@ export class OmdbApiProvider {
                     this.moviesIds.push(movie.imdbID)
                 }
             }));
-            /*this.getData(this.url_base_poster, '&i=' + ids[i]).subscribe(data => {
+            /*this.callApi(this.url_base_poster, '&i=' + ids[i]).subscribe(data => {
                 console.log('end')
                 for (let poster of data['Search']) {
                     this.results_posters.push(poster);

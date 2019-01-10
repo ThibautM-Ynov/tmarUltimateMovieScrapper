@@ -3,7 +3,7 @@
     <ion-title *ngIf="!isOn">
       Movies
     </ion-title>
-    <ion-searchbar *ngIf="isOn" showCancelButton="true" (ionInput)="getItems($event, 'movie')" (ionCancel)="isOn=false"></ion-searchbar>
+    <ion-searchbar *ngIf="isOn" showCancelButton="true" (ionInput)="getItems($event, 'movie', '1')" (ionCancel)="isOn=false"></ion-searchbar>
     <ion-buttons end>
       <button ion-button icon-only *ngIf="!isOn" (click)="isOn=true;">
         <ion-icon name="search"></ion-icon>
@@ -17,5 +17,11 @@
     <img src="{{movie.Poster}}"/>
     <div class="card-title">{{movie.Title}}</div>
     <div class="card-subtitle">{{movie.Year}}</div>
+    <div class="card-subtitle">{{movie.Website}}</div>
   </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
