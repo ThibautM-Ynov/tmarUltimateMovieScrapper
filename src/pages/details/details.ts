@@ -16,6 +16,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class DetailsPage {
 
   movie;
+  isFavorite: boolean = false;
 
   constructor(
       public navCtrl: NavController,
@@ -26,4 +27,13 @@ export class DetailsPage {
     this.movie = this.navParams.data;
   }
 
+  toggleFavorite() {
+    if (this.isFavorite) {
+      this.isFavorite = false;
+      // TODO persist data
+    } else {
+      this.isFavorite = true;
+      // TODO persist data
+    }
+  }
 }
