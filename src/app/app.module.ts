@@ -9,6 +9,7 @@ import { MyApp } from './app.component';
 import { OmdbApiProvider } from '../providers/omdb-api/omdb-api';
 import {DetailsPage} from "../pages/details/details";
 import {IonicStorageModule} from "@ionic/storage";
+import { FavoriteProvider } from '../providers/favorite/favorite';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {IonicStorageModule} from "@ionic/storage";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    OmdbApiProvider
+    OmdbApiProvider,
+    FavoriteProvider,
   ]
 })
 export class AppModule {}

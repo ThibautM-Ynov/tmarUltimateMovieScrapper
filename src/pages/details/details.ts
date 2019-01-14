@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {FavoriteProvider} from "../../providers/favorite/favorite";
 
 /**
  * Generated class for the DetailsPage page.
@@ -20,20 +21,19 @@ export class DetailsPage {
 
   constructor(
       public navCtrl: NavController,
-      public navParams: NavParams
+      public navParams: NavParams,
+      private favoriteProvider: FavoriteProvider,
   ) {}
 
   ionViewDidLoad() {
     this.movie = this.navParams.data;
+    this.favoriteProvider
+        .isFavoriteMovie(this.movie)
+        .then(value => (this.isFavorite = value));
   }
 
-  toggleFavorite() {
-    if (this.isFavorite) {
-      this.isFavorite = false;
-      // TODO persist data
-    } else {
-      this.isFavorite = true;
-      // TODO persist data
-    }
+  toggleFavorite(): void {
+    this.isFavorite = !this.isFavorite;
+    this.favoriteProvider.toogleFavoriteMovie(this.movie);
   }
 }
