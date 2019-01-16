@@ -39,7 +39,7 @@ export class DetailsPage {
     this.favoriteProvider.toogleFavoriteItem(this.item);
   }
 
-  getSeasonEpisodes(episodes) {console.log(episodes)
+  getSeasonEpisodes(episodes) {
     this.navCtrl.push(EpisodesPage, episodes);
   }
 }
