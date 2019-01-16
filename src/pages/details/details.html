@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title *ngIf="movie">{{movie.Title}}</ion-title>
+    <ion-title *ngIf="item">{{item.Title}}</ion-title>
     <ion-buttons end>
       <button ion-button incon-only style="font-size: 1.7em" (click)=toggleFavorite()>
         <ion-icon [name]="isFavorite ? 'star':'star-outline'"></ion-icon>
@@ -10,13 +10,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngIf="movie">
-    <img [src]="movie.Poster" />
+  <ion-card *ngIf="item">
+    <img [src]="item.PosterHD" />
+    <ion-badge *ngIf="item.totalSeasons" color="dark">{{item.totalSeasons}} seasons</ion-badge>
     <ion-card-header>
       <h2>Synopsis
-        <ion-badge color="primary">{{movie.imdbRating}}</ion-badge>
+        <ion-badge color="primary">{{item.imdbRating}}</ion-badge>
       </h2>
     </ion-card-header>
-    <ion-card-content>{{movie.Plot}}</ion-card-content>
+    <ion-card-content>{{item.Plot}}</ion-card-content>
+    <ion-list *ngIf="item.Seasons">
+      <button *ngFor="let season of item.Seasons" ion-item (click)="getSeasonEpisodes(season.Episodes)">
+        Season {{season.Season}}
+      </button>
+    </ion-list>
   </ion-card>
 </ion-content>

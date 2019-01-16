@@ -15,22 +15,22 @@
 
 <ion-content>
 
-  <ion-card *ngIf="favoriteMovies && favoriteMovies.length; else noFavorite">
+  <ion-card *ngIf="favoriteItems && favoriteItems.length; else noFavorite">
     <ion-list>
-      <ion-list-header class="my-movies-header">Favorite Movies</ion-list-header>
-      <ion-item *ngFor="let movie of favoriteMovies" (click)="goToDetail(movie)">
+      <ion-list-header class="my-movies-header">Favorite Movies/Series</ion-list-header>
+      <ion-item *ngFor="let item of favoriteItems" (click)="goToDetail(item)">
         <ion-row>
           <ion-col col-1>
             <ion-icon name="star"></ion-icon>
           </ion-col>
           <ion-col col-6 text-wrap>
-            <h4>{{movie.Title}}</h4>
+            <h4>{{item.Title}}</h4>
           </ion-col>
           <ion-col col-3>
-            <h4>{{movie.Year}}</h4>
+            <h4>{{item.Year}}</h4>
           </ion-col>
           <ion-col col-2>
-            <ion-badge color="primary">{{movie.imdbRating}}</ion-badge>
+            <ion-badge color="primary">{{item.imdbRating}}</ion-badge>
           </ion-col>
         </ion-row>
       </ion-item>
@@ -41,17 +41,27 @@
         <ion-icon name="search"></ion-icon>
         Find a movie
       </button>
+      <p>To choose more series, click on this button.</p>
+      <button icon-left ion-button full (click)="findSerie()">
+        <ion-icon name="search"></ion-icon>
+        Find a serie
+      </button>
     </ion-card-content>
   </ion-card>
 
   <ng-template #noFavorite>
     <ion-card>
       <ion-card-content>
-        <p>You haven’t selected any movie</p>
-        <p>Please select one by using the button below</p>
+        <p>You haven’t selected any movie nor serie</p>
+        <p>Please select a movie by using the button below</p>
         <button ion-button icon-left full (click)="findMovie()">
           <ion-icon name="search"></ion-icon>
           Find a movie
+        </button>
+        <p>Or this one to select a serie</p>
+        <button ion-button icon-left full (click)="findSerie()">
+          <ion-icon name="search"></ion-icon>
+          Find a serie
         </button>
       </ion-card-content>
     </ion-card>

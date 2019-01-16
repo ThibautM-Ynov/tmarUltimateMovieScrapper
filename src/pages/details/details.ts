@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {FavoriteProvider} from "../../providers/favorite/favorite";
+import {EpisodesPage} from "../episodes/episodes";
 
 /**
  * Generated class for the DetailsPage page.
@@ -16,7 +17,7 @@ import {FavoriteProvider} from "../../providers/favorite/favorite";
 })
 export class DetailsPage {
 
-  movie;
+  item;
   isFavorite: boolean = false;
 
   constructor(
@@ -25,15 +26,20 @@ export class DetailsPage {
       private favoriteProvider: FavoriteProvider,
   ) {}
 
-  ionViewDidLoad() {
-    this.movie = this.navParams.data;
+  ionViewWillEnter() {
+    this.item = this.navParams.data;
+    console.log(this.item)
     this.favoriteProvider
-        .isFavoriteMovie(this.movie)
+        .isFavoriteItem(this.item)
         .then(value => (this.isFavorite = value));
   }
 
   toggleFavorite(): void {
     this.isFavorite = !this.isFavorite;
-    this.favoriteProvider.toogleFavoriteMovie(this.movie);
+    this.favoriteProvider.toogleFavoriteItem(this.item);
+  }
+
+  getSeasonEpisodes(episodes) {console.log(episodes)
+    this.navCtrl.push(EpisodesPage, episodes);
   }
 }

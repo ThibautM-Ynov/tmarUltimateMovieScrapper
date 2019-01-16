@@ -7,7 +7,7 @@ import {Storage} from "@ionic/storage";
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
-const MOVIE_KEY = "movie_";
+const ITEM_KEY = "item_";
 
 @Injectable()
 export class FavoriteProvider {
@@ -16,49 +16,78 @@ export class FavoriteProvider {
     console.log('Hello FavoriteProvider Provider');
   }
 
-  addFavoriteMovie(movie: any) {
+  addFavoriteItem(item: any) {
     console.log('added.');
-    console.log(typeof movie);
-    console.log(movie);
-    let tmp = {};
-    for (let key in movie) {
-      tmp[key] = movie[key];
+    console.log(item);
+    //  let seasons = item.Seasons;
+    //delete item.Seasons;
+    //
+    //let tmpSeason: object = {};
+    //for (let season in seasons) {
+    //  let episodes = seasons[season]['Episodes'];
+    //  delete seasons[season]['Episodes'];
+    //
+    //  let tmpEpisodes: object = {};
+    //  for (let episode in episodes) {
+    //    tmpEpisodes[episode] = episodes[episode];
+    //  }
+    //  tmpSeason[season] = seasons[season];
+    //  //seasons[season] = { 'Episodes': tmpEpisodes};
+    //  tmpSeason[season]['Episodes'] = tmpEpisodes;
+    //}
+
+
+    let tmp: object = {};
+    for (let key in item) {
+      if (key !== "Seasons") {
+        tmp[key] = item[key];
+      }
+      else {
+        tmp['Seasons'] = {};
+        for (let season in item[key]) {
+          tmp['Seasons'][season] = {...tmp['Seasons'][season], ...item[key][season]}
+        }
+      }
     }
+    //tmp['Seasons'] = {};
+    //tmp['Seasons'] = tmpSeason;
 
-    this.storage.set(this.getMovieKey(movie), JSON.stringify(tmp));
+    console.log(tmp);
+    console.log(JSON.stringify(tmp));
+    console.log(JSON.stringify(tmp.Seasons));
+    this.storage.set(this.getItemKey(item), JSON.stringify(tmp));
   }
 
-  removeFavoriteMovie(movie) {
+  removeFavoriteItem(item) {
     console.log('removed.');
-    this.storage.remove(this.getMovieKey(movie));
+    this.storage.remove(this.getItemKey(item));
   }
 
-  isFavoriteMovie(movie) {
-    console.log(this.storage.get(this.getMovieKey(movie)));
-    return this.storage.get(this.getMovieKey(movie));
+  isFavoriteItem(item) {
+    return this.storage.get(this.getItemKey(item));
   }
 
-  toogleFavoriteMovie(movie) {
-    this.isFavoriteMovie(movie).then(
+  toogleFavoriteItem(item) {
+    this.isFavoriteItem(item).then(
         isFavorite =>
             isFavorite
-                ? this.removeFavoriteMovie(movie)
-                : this.addFavoriteMovie(movie)
+                ? this.removeFavoriteItem(item)
+                : this.addFavoriteItem(item)
     );
   }
 
-  getMovieKey(movie) {
-    return MOVIE_KEY + movie.imdbID.toString();
+  getItemKey(item) {
+    return ITEM_KEY + item.imdbID.toString();
   }
 
-  getFavoriteMovies(): Promise<string[]> {
+  getFavoriteItems(): Promise<string[]> {
     return new Promise(resolve => {
       let results = [];
       this.storage
           .keys()
           .then(keys =>
               keys
-                  .filter(key => key.includes(MOVIE_KEY))
+                  .filter(key => key.includes(ITEM_KEY))
                   .forEach(key =>
                       this.storage.get(key).then(data => results.push(JSON.parse(data)))
                   )

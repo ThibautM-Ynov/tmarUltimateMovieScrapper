@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import {OmdbApiProvider} from "../../providers/omdb-api/omdb-api";
+import {DetailsPage} from "../details/details";
 
 /**
  * Generated class for the SeriesPage page.
@@ -49,6 +50,10 @@ export class SeriesPage {
     this.series = this.omdbApi.seriesResults;
     console.log(this.series);
     this.pageIndex++;
+  }
+
+  goToDetail(serie) {
+    this.navCtrl.push(DetailsPage, serie);
   }
 
 }

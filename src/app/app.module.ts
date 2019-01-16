@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MyApp } from './app.component';
 import { OmdbApiProvider } from '../providers/omdb-api/omdb-api';
 import {DetailsPage} from "../pages/details/details";
+import {EpisodesPage} from "../pages/episodes/episodes";
 import {IonicStorageModule} from "@ionic/storage";
 import { FavoriteProvider } from '../providers/favorite/favorite';
 
@@ -15,6 +16,7 @@ import { FavoriteProvider } from '../providers/favorite/favorite';
   declarations: [
     MyApp,
     DetailsPage,
+    EpisodesPage,
   ],
   imports: [
     BrowserModule,
@@ -26,6 +28,7 @@ import { FavoriteProvider } from '../providers/favorite/favorite';
   entryComponents: [
     MyApp,
     DetailsPage,
+    EpisodesPage,
   ],
   providers: [
     StatusBar,

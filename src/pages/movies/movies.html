@@ -14,7 +14,7 @@
 
 <ion-content class="card-background-page">
   <ion-card *ngFor="let movie of movies">
-    <img src="{{movie.Poster}}" (click)="goToDetail(movie)"/>
+    <img src="{{movie.PosterHD}}" (click)="goToDetail(movie)"/>
     <div class="card-title">{{movie.Title}}</div>
     <div class="card-subtitle">{{movie.Year}}</div>
     <div class="card-subtitle">{{movie.Website}}</div>

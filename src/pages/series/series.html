@@ -14,7 +14,7 @@
 
 <ion-content class="card-background-page">
   <ion-card *ngFor="let serie of series">
-    <img src="{{serie.Poster}}"/>
+    <img src="{{serie.PosterHD}}" (click)="goToDetail(serie)"/>
     <div class="card-title">{{serie.Title}}</div>
     <div class="card-subtitle">{{serie.Year}}</div>
   </ion-card>

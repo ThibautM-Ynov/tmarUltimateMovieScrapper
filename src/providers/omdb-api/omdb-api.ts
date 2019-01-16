@@ -10,15 +10,14 @@ import "rxjs/add/operator/map";
 */
 @Injectable()
 export class OmdbApiProvider {
-  moviesIds = [];
   moviesResults = [];
   seriesResults = [];
+  favItemResult = [];
   search = [];
-  results_posters = [];
   url_base_data = "http://www.omdbapi.com/";
   url_base_poster = "http://img.omdbapi.com/";
   apiKey = "?apikey=75522b56";
-  parameters = "&s=Guardians";
+  //parameters = "&s=Guardians";
   title = "";
 
     constructor(public http: HttpClient) {
@@ -60,6 +59,7 @@ export class OmdbApiProvider {
                   for (let key in data) {
                       tmp[key] = data[key];
                   }
+                  tmp['PosterHD'] = this.url_base_poster + this.apiKey + '&i=' + search;
                   this.moviesResults.push(tmp);
               });
           }
@@ -72,18 +72,21 @@ export class OmdbApiProvider {
                   for (let key in data) {
                       tmp[key] = data[key];
                   }
+                  tmp['PosterHD'] = this.url_base_poster + this.apiKey + '&i=' + search;
+                  tmp['Seasons'] = [];
+                  for (let i = 1; i <= tmp['totalSeasons']; i++) {
+                      this.callApi(this.url_base_data, '&i=' + search + '&Season=' + i).subscribe(data => {
+                          let tmpSeason = [];
+                          for (let key in data) {
+                              tmpSeason[key] = data[key];
+                          }
+                          tmp['Seasons'].push(tmpSeason);
+                      });
+                  }
                   this.seriesResults.push(tmp);
               });
           }
       }
-      /*else {
-          this.callApi(this.url_base_data, this.parameters).subscribe(data => {
-              for (let movie of data['Search']) {
-                  this.results.push(movie);
-                  this.moviesIds.push(movie.imdbID)
-              }
-          });
-      }*/
     }
 
     getSearch(el, type, nbPage) {
@@ -105,40 +108,45 @@ export class OmdbApiProvider {
                 } else {
                     this.getData(elem['imdbID'], type)
                 }
-                //this.search.push(movie.imdbID);
-                //this.moviesIds.push(movie.imdbID)
             }
         });
     }
 
-    // ???
-/*    getDetails(ids) {
-      for (let i=0;i<ids.length;i++){
-        console.log(ids[i]);
-        this.callApi(this.url_base_poster, '&i=' + ids[i]).subscribe(data => {
-          console.log('end')
-          for (let poster of data['Search']) {
-            this.results_posters.push(poster);
-          }
-        });
-      }
-    }*/
-
-/*    getPoster(ids) {
-        for (let i=0;i<ids.length;i++){
-            console.log(ids[i]);
-            console.log(this.http.get(this.url_base_poster + this.apiKey + '&i=' + ids[i]).map((res) => res).subscribe(data => {
-                for (let movie of data['Search']) {
-                    this.results.push(movie);
-                    this.moviesIds.push(movie.imdbID)
+    getOneItem(search, type): Promise<string[]> {
+        if (search != null) {
+            this.callApi(this.url_base_data, '&i=' + search).subscribe(data => {
+                let tmp = [];
+                for (let key in data) {
+                    tmp[key] = data[key];
                 }
-            }));
-            /*this.callApi(this.url_base_poster, '&i=' + ids[i]).subscribe(data => {
-                console.log('end')
-                for (let poster of data['Search']) {
-                    this.results_posters.push(poster);
+                tmp['PosterHD'] = this.url_base_poster + this.apiKey + '&i=' + search;
+                if (type === 'series') {
+                    tmp['Seasons'] = [];
+                    for (let i = 1; i <= tmp['totalSeasons']; i++) {
+                        this.callApi(this.url_base_data, '&i=' + search + '&Season=' + i).subscribe(data => {
+                            let tmpSeason = [];
+                            for (let key in data) {
+                                tmpSeason[key] = data[key];
+                            }
+                            tmp['Seasons'].push(tmpSeason);
+                        });
+                    }
                 }
+                this.favItemResult = tmp;
             });
         }
-    }*/
+        return null;
+    }
+
+    getEpisodeDetails(episode) {console.log(episode.imdbID)
+        let episodeId = episode
+        //this.callApi(this.url_base_data, '&i=' + search).subscribe(data => {
+        //    let tmp = [];
+        //    for (let key in data) {
+        //        tmp[key] = data[key];
+        //    }
+        //    tmp['PosterHD'] = this.url_base_poster + this.apiKey + '&i=' + search;
+        //    this.moviesResults.push(tmp);
+        //});
+    }
 }
