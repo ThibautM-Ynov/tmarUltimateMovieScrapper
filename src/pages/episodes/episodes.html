@@ -16,8 +16,8 @@
 <ion-content padding>
   <ion-list *ngIf="episodes">
       <button *ngFor="let episode of episodes" ion-item (click)="getDetails(episode)">
-        Episode {{episode.Episode}}
-        <p right>{{episode.Released}} - {{episode.imdbRating}}</p>
+        {{episode.Title}}
+        <p right>Episode {{episode.Episode}} - Rated : {{episode.imdbRating}}</p>
       </button>
   </ion-list>
 </ion-content>
