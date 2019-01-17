@@ -5,14 +5,24 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>EpisodeDetailsPage</ion-title>
+  <ion-navbar color="primary">
+    <ion-title *ngIf="item">{{item.Title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button incon-only style="font-size: 1.7em" (click)=toggleFavorite()>
+        <ion-icon [name]="isFavorite ? 'star':'star-outline'"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
-
-<ion-content padding>
-
+<ion-content>
+  <ion-card *ngIf="item">
+    <ion-card-header>
+      <h2>Synopsis
+        <ion-badge color="primary">{{item.imdbRating}}</ion-badge>
+      </h2>
+      <p>{{item.Released}}</p>
+    </ion-card-header>
+    <ion-card-content>{{item.Plot}}</ion-card-content>
+  </ion-card>
 </ion-content>

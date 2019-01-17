@@ -54,7 +54,6 @@ export class FavoriteProvider {
 
     console.log(tmp);
     console.log(JSON.stringify(tmp));
-    console.log(JSON.stringify(tmp.Seasons));
     this.storage.set(this.getItemKey(item), JSON.stringify(tmp));
   }
 

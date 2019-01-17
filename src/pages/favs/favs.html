@@ -67,4 +67,20 @@
     </ion-card>
   </ng-template>
 
+  <ion-card>
+    <ion-card-content>
+      <ion-buttons>
+        <p>Import JSON File</p>
+        <button ion-button icon-only (click)="importFavorites();">
+          <ion-icon name="arrow-round-up"></ion-icon>
+        </button>
+        <p>Export favorites movies/series to a JSON File</p>
+        <button ion-button icon-only (click)="exportFavorites();">
+          <ion-icon name="cloud-download"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-card-content>
+  </ion-card>
+
+
 </ion-content>

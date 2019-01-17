@@ -11,18 +11,35 @@
 
 <ion-content>
   <ion-card *ngIf="item">
-    <img [src]="item.PosterHD" />
-    <ion-badge *ngIf="item.totalSeasons" color="dark">{{item.totalSeasons}} seasons</ion-badge>
+    <img *ngIf="item.PosterHD" [src]="item.PosterHD" />
+    <div class="details-button" *ngIf="item.PosterHD">
+    </div>
     <ion-card-header>
-      <h2>Synopsis
-        <ion-badge color="primary">{{item.imdbRating}}</ion-badge>
-      </h2>
+      <h2>{{item.Title}}</h2>
     </ion-card-header>
-    <ion-card-content>{{item.Plot}}</ion-card-content>
+    <ion-card-content *ngIf="item.Type == 'movie'">Runtime : {{item.Runtime}}
+    <br>Type : {{item.Type}}
+    <br>Director : {{item.Director}}
+    <br>First released : {{item.Year}}
+    <br>Actors : {{item.Actors}}
+    <br>Awards or nominations : {{item.Awards}}
+    <br><ion-badge color="primary">Rated : {{item.imdbRating}}</ion-badge>
+      <ion-badge color="primary">{{item.imdbVotes}} votes</ion-badge>
+    </ion-card-content>
+
+    <ion-card-content>Synopsis
+      <br>{{item.LongPlot}}</ion-card-content>
+    <ion-card-content>Rated : {{item.Rated}}</ion-card-content>
+    <ion-card-content>Visit <a href="{{item.Website}}">the website</a></ion-card-content>
+    <ion-badge *ngIf="item.totalSeasons" color="dark">{{item.totalSeasons}} seasons</ion-badge>
     <ion-list *ngIf="item.Seasons">
       <button *ngFor="let season of item.Seasons" ion-item (click)="getSeasonEpisodes(season.Episodes)">
         Season {{season.Season}}
       </button>
     </ion-list>
   </ion-card>
+  <button ion-button round outline (click)="downloadImage(item.PosterHD)">
+      <ion-icon name="cloud-download"></ion-icon>&nbsp;&nbsp;
+      Download poster
+  </button>
 </ion-content>

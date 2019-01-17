@@ -12,12 +12,10 @@ import "rxjs/add/operator/map";
 export class OmdbApiProvider {
   moviesResults = [];
   seriesResults = [];
-  favItemResult = [];
   search = [];
   url_base_data = "http://www.omdbapi.com/";
   url_base_poster = "http://img.omdbapi.com/";
   apiKey = "?apikey=75522b56";
-  //parameters = "&s=Guardians";
   title = "";
 
     constructor(public http: HttpClient) {
@@ -60,6 +58,14 @@ export class OmdbApiProvider {
                       tmp[key] = data[key];
                   }
                   tmp['PosterHD'] = this.url_base_poster + this.apiKey + '&i=' + search;
+                  tmp['LongPlot'] = '';
+                  this.callApi(this.url_base_data, '&i=' + search + '&plot=full').subscribe(data => {
+                      for (let key in data) {
+                          if (key == 'Plot') {
+                              tmp['LongPlot'] = data[key];
+                          }
+                      }
+                  });
                   this.moviesResults.push(tmp);
               });
           }
@@ -83,6 +89,14 @@ export class OmdbApiProvider {
                           tmp['Seasons'].push(tmpSeason);
                       });
                   }
+                  tmp['LongPlot'] = '';
+                  this.callApi(this.url_base_data, '&i=' + search + '&plot=full').subscribe(data => {
+                      for (let key in data) {
+                          if (key == 'Plot') {
+                              tmp['LongPlot'] = data[key];
+                          }
+                      }
+                  });
                   this.seriesResults.push(tmp);
               });
           }
@@ -112,41 +126,19 @@ export class OmdbApiProvider {
         });
     }
 
-    getOneItem(search, type): Promise<string[]> {
-        if (search != null) {
-            this.callApi(this.url_base_data, '&i=' + search).subscribe(data => {
-                let tmp = [];
-                for (let key in data) {
-                    tmp[key] = data[key];
-                }
-                tmp['PosterHD'] = this.url_base_poster + this.apiKey + '&i=' + search;
-                if (type === 'series') {
-                    tmp['Seasons'] = [];
-                    for (let i = 1; i <= tmp['totalSeasons']; i++) {
-                        this.callApi(this.url_base_data, '&i=' + search + '&Season=' + i).subscribe(data => {
-                            let tmpSeason = [];
-                            for (let key in data) {
-                                tmpSeason[key] = data[key];
-                            }
-                            tmp['Seasons'].push(tmpSeason);
-                        });
-                    }
-                }
-                this.favItemResult = tmp;
-            });
-        }
-        return null;
-    }
-
-    getEpisodeDetails(episode) {console.log(episode.imdbID)
-        let episodeId = episode
-        //this.callApi(this.url_base_data, '&i=' + search).subscribe(data => {
-        //    let tmp = [];
-        //    for (let key in data) {
-        //        tmp[key] = data[key];
-        //    }
-        //    tmp['PosterHD'] = this.url_base_poster + this.apiKey + '&i=' + search;
-        //    this.moviesResults.push(tmp);
-        //});
-    }
+    //getEpisodeDetails(id): Promise<string[]> {
+    //    return new Promise(resolve => {
+    //        let episode = []
+                //        this.callApi(this.url_base_data, '&i=' + id).subscribe(data => {
+    //            let tmp = [];
+    //            for (let key in data) {
+    //                tmp[key] = data[key];
+    //            }
+    //            episode = tmp;
+    //            console.log(episode)
+                        //        });
+    //        console.log(episode)
+                //        return resolve(episode);
+    //    });
+    //}
 }

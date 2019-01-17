@@ -17,7 +17,6 @@
     <img src="{{movie.PosterHD}}" (click)="goToDetail(movie)"/>
     <div class="card-title">{{movie.Title}}</div>
     <div class="card-subtitle">{{movie.Year}}</div>
-    <div class="card-subtitle">{{movie.Website}}</div>
   </ion-card>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">

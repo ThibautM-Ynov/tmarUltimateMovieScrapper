@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {OmdbApiProvider} from "../../providers/omdb-api/omdb-api";
-import {DetailsPage} from "../details/details";
+import {EpisodeDetailsPage} from "../episode-details/episode-details";
 
 /**
  * Generated class for the EpisodesPage page.
@@ -17,17 +17,17 @@ import {DetailsPage} from "../details/details";
 })
 export class EpisodesPage {
   private episodes: any;
+  episode;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public omdbApi: OmdbApiProvider) {
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.episodes = this.navParams.data; console.log(this.episodes)
   }
 
   getDetails(episode) {
-    this.omdbApi.getEpisodeDetails(episode);
-    //this.navCtrl.push(DetailsPage, serie);
+    this.navCtrl.push(EpisodeDetailsPage, episode);
   }
 
 }

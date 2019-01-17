@@ -11,12 +11,18 @@ import {DetailsPage} from "../pages/details/details";
 import {EpisodesPage} from "../pages/episodes/episodes";
 import {IonicStorageModule} from "@ionic/storage";
 import { FavoriteProvider } from '../providers/favorite/favorite';
+import {EpisodeDetailsPage} from "../pages/episode-details/episode-details";
+import {File} from "@ionic-native/file";
+import {FileChooser} from "@ionic-native/file-chooser";
+import {FilePath} from "@ionic-native/file-path";
+import {DocumentPicker} from "@ionic-native/document-picker";
 
 @NgModule({
   declarations: [
     MyApp,
     DetailsPage,
     EpisodesPage,
+    EpisodeDetailsPage,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +35,7 @@ import { FavoriteProvider } from '../providers/favorite/favorite';
     MyApp,
     DetailsPage,
     EpisodesPage,
+    EpisodeDetailsPage,
   ],
   providers: [
     StatusBar,
@@ -36,6 +43,10 @@ import { FavoriteProvider } from '../providers/favorite/favorite';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     OmdbApiProvider,
     FavoriteProvider,
+    File,
+    FileChooser,
+    FilePath,
+    DocumentPicker,
   ]
 })
 export class AppModule {}
