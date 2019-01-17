@@ -10,7 +10,7 @@ import { Storage } from "@ionic/storage";
 import { File } from '@ionic-native/file';
 import {FilePath} from "@ionic-native/file-path";
 import {FileChooser} from "@ionic-native/file-chooser";
-import {DocumentPicker} from "@ionic-native/document-picker";
+//import {DocumentPicker} from "@ionic-native/document-picker";
 
 /**
  * Generated class for the FavsPage page.
@@ -39,7 +39,7 @@ export class FavsPage {
       private filePath: FilePath,
       private fileChooser: FileChooser,
       private toastCtrl: ToastController,
-      private docPicker: DocumentPicker,
+      //private docPicker: DocumentPicker,
   ) {}
 
   ionViewDidLoad() {
@@ -132,9 +132,9 @@ export class FavsPage {
   }
 
   writeJSON(filename, object) {
-    return this.file.writeFile(this.file.documentsDirectory, filename, object, {replace:true}).then(_ => {
+    return this.file.writeFile(this.file.externalDataDirectory, filename, object, {replace:true}).then(_ => {
       this.presentToast('JSON file downloaded in your root directory !');
-      console.log('Directory exists: ' + this.file.documentsDirectory);
+      console.log('Directory exists: ' + this.file.externalDataDirectory);
     }).catch(_ => {
       console.log('Directory doesn\'t exist');
     });
@@ -184,12 +184,13 @@ export class FavsPage {
         {
           text: 'Continue',
           handler: () => {
-            this.docPicker.getFile('all')
-                .then(uri => {
-                  this.getJSON(uri);
-                }).catch(_ => {
-              console.log('error');
-            });
+            // Works on ios.
+            //this.docPicker.getFile('all')
+            //    .then(uri => {
+            //      this.getJSON(uri);
+            //    }).catch(_ => {
+            //  console.log('error');
+            //});
             this.importFavs();
           }
         }
