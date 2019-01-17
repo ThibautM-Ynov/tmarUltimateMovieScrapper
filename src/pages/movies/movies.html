@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="!isOn">
+      Movies
+    </ion-title>
+    <ion-searchbar *ngIf="isOn" showCancelButton="true" (ionInput)="getItems($event, 'movie', '1')" (ionCancel)="isOn=false"></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button icon-only *ngIf="!isOn" (click)="isOn=true;">
+        <ion-icon name="search"></ion-icon>
+       </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="card-background-page">
+  <ion-card *ngFor="let movie of movies">
+    <img src="{{movie.PosterHD}}" (click)="goToDetail(movie)"/>
+    <div class="card-title">{{movie.Title}}</div>
+    <div class="card-subtitle">{{movie.Year}}</div>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

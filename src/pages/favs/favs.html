@@ -1,0 +1,86 @@
+<!--
+  Generated template for the FavsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Favs</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-card *ngIf="favoriteItems && favoriteItems.length; else noFavorite">
+    <ion-list>
+      <ion-list-header class="my-movies-header">Favorite Movies/Series</ion-list-header>
+      <ion-item *ngFor="let item of favoriteItems" (click)="goToDetail(item)">
+        <ion-row>
+          <ion-col col-1>
+            <ion-icon name="star"></ion-icon>
+          </ion-col>
+          <ion-col col-6 text-wrap>
+            <h4>{{item.Title}}</h4>
+          </ion-col>
+          <ion-col col-3>
+            <h4>{{item.Year}}</h4>
+          </ion-col>
+          <ion-col col-2>
+            <ion-badge color="primary">{{item.imdbRating}}</ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+    <ion-card-content>
+      <p>To choose more movies, click on this button.</p>
+      <button icon-left ion-button full (click)="findMovie()">
+        <ion-icon name="search"></ion-icon>
+        Find a movie
+      </button>
+      <p>To choose more series, click on this button.</p>
+      <button icon-left ion-button full (click)="findSerie()">
+        <ion-icon name="search"></ion-icon>
+        Find a serie
+      </button>
+    </ion-card-content>
+  </ion-card>
+
+  <ng-template #noFavorite>
+    <ion-card>
+      <ion-card-content>
+        <p>You haven’t selected any movie nor serie</p>
+        <p>Please select a movie by using the button below</p>
+        <button ion-button icon-left full (click)="findMovie()">
+          <ion-icon name="search"></ion-icon>
+          Find a movie
+        </button>
+        <p>Or this one to select a serie</p>
+        <button ion-button icon-left full (click)="findSerie()">
+          <ion-icon name="search"></ion-icon>
+          Find a serie
+        </button>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-buttons>
+        <p>Import JSON File</p>
+        <button ion-button icon-only (click)="importFavorites();">
+          <ion-icon name="arrow-round-up"></ion-icon>
+        </button>
+        <p>Export favorites movies/series to a JSON File</p>
+        <button ion-button icon-only (click)="exportFavorites();">
+          <ion-icon name="cloud-download"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-card-content>
+  </ion-card>
+
+
+</ion-content>

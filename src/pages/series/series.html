@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="!isOn">
+      Series
+    </ion-title>
+    <ion-searchbar *ngIf="isOn" showCancelButton="true" (ionInput)="getItems($event, 'series', '1')" (ionCancel)="isOn=false"></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button icon-only *ngIf="!isOn" (click)="isOn=true;">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="card-background-page">
+  <ion-card *ngFor="let serie of series">
+    <img src="{{serie.PosterHD}}" (click)="goToDetail(serie)"/>
+    <div class="card-title">{{serie.Title}}</div>
+    <div class="card-subtitle">{{serie.Year}}</div>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
