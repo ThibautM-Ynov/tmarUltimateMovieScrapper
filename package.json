@@ -25,7 +25,6 @@
     "@ionic-native/file": "^4.19.0",
     "@ionic-native/file-chooser": "^4.19.0",
     "@ionic-native/file-path": "^4.19.0",
-    "@ionic-native/photo-library": "^4.19.0",
     "@ionic-native/splash-screen": "4.3.2",
     "@ionic-native/status-bar": "4.3.2",
     "@ionic/storage": "2.1.3",
@@ -39,7 +38,6 @@
     "cordova-plugin-filechooser": "1.2.0",
     "cordova-plugin-filepath": "1.5.1",
     "cordova-plugin-ionic-webview": "^1.2.1",
-    "cordova-plugin-photo-library": "2.2.0",
     "cordova-plugin-save-image": "^0.3.0",
     "cordova-plugin-splashscreen": "^4.0.3",
     "cordova-plugin-whitelist": "^1.3.1",
@@ -69,10 +67,7 @@
       "cordova-plugin-filepath": {},
       "cordova-plugin-save-image": {},
       "cordova-plugin-add-swift-support": {},
-      "cordova-plugin-documentpicker": {},
-      "cordova-plugin-photo-library": {
-        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "To choose photos"
-      }
+      "cordova-plugin-documentpicker": {}
     },
     "platforms": [
       "ios",
