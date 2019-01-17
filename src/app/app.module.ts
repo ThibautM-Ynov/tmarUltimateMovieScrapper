@@ -16,7 +16,7 @@ import {File} from "@ionic-native/file";
 import {FileChooser} from "@ionic-native/file-chooser";
 import {FilePath} from "@ionic-native/file-path";
 import {DocumentPicker} from "@ionic-native/document-picker";
-import {PhotoLibrary} from "@ionic-native/photo-library";
+//import {PhotoLibrary} from "@ionic-native/photo-library";
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import {PhotoLibrary} from "@ionic-native/photo-library";
     FileChooser,
     FilePath,
     DocumentPicker,
-    PhotoLibrary,
+    //PhotoLibrary,
   ]
 })
 export class AppModule {}

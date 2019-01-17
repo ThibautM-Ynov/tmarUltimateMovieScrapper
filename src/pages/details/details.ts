@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {FavoriteProvider} from "../../providers/favorite/favorite";
 import {EpisodesPage} from "../episodes/episodes";
-import {PhotoLibrary} from "@ionic-native/photo-library";
+//import {PhotoLibrary} from "@ionic-native/photo-library";
 
 /**
  * Generated class for the DetailsPage page.
@@ -25,8 +25,8 @@ export class DetailsPage {
       public navCtrl: NavController,
       public navParams: NavParams,
       private favoriteProvider: FavoriteProvider,
-      private toastCtrl: ToastController,
-      private photoLibrary: PhotoLibrary,
+      //private toastCtrl: ToastController,
+      //private photoLibrary: PhotoLibrary,
   ) {}
 
   ionViewWillEnter() {
@@ -47,26 +47,26 @@ export class DetailsPage {
   }
 
   public downloadImage(posterUrl) {
-    this.photoLibrary.requestAuthorization({read:true,write:true}).then(() => {
-
-      this.photoLibrary.saveImage((posterUrl + "&ext=.jpg"), 'UltimateMovieScrapper').then( response => {
-        let toast = null;
-        if(response.creationDate) {
-          toast = this.toastCtrl.create({
-            message: `The poster has been downloaded in the UltimateMovieScrapper album.`,
-            duration: 3000
-          });
-        } else {
-          toast = this.toastCtrl.create({
-            message: `The poster could not be downloaded.`,
-            duration: 3000
-          });
-        }
-
-        toast.present();
-      }).catch((err) => console.log(err));
-
-    }).catch(err => console.log('permissions weren\'t grandted'));
+    //this.photoLibrary.requestAuthorization({read:true,write:true}).then(() => {
+//
+    //  this.photoLibrary.saveImage((posterUrl + "&ext=.jpg"), 'UltimateMovieScrapper').then( response => {
+    //    let toast = null;
+    //    if(response.creationDate) {
+    //      toast = this.toastCtrl.create({
+    //        message: `The poster has been downloaded in the UltimateMovieScrapper album.`,
+    //        duration: 3000
+    //      });
+    //    } else {
+    //      toast = this.toastCtrl.create({
+    //        message: `The poster could not be downloaded.`,
+    //        duration: 3000
+    //      });
+    //    }
+//
+    //    toast.present();
+    //  }).catch((err) => console.log(err));
+//
+    //}).catch(err => console.log('permissions weren\'t grandted'));
   }
 
 }
